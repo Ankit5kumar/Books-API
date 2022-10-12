@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+require("dotenv").config();
 const {User} = require('../models')
 
 async function signUp(req,res){
@@ -44,20 +45,20 @@ async function signIn(req,res){
 			const validPassword = bcrypt.compareSync(password,user.password)
 			if(!validPassword){
 				res.status(400).send({msg : 'Username/password is not correct'})	
-			}else if(!username){
-				res.send({msg : 'Username is missing'})
 			}
 
-			const token = await jwt.sign({id : user.id}, 'helloIamsecretkey', {
+			const token = await jwt.sign({id : user.id}, process.env.JWT_SECRET_KEY, {
 				expiresIn: '1h'
 			})
+			res.send({msg : 'Token',token})
 
 			const authorities = [];
 			const roles = await user.getRoles();
+			res.send(roles)
+			console.log(roles)
 			for(let i=0; i<roles.length;i++){
 				authorities.push(roles[i].name)
 			}
-
 			const finalUser = {
 				id: user.id,
 				name: user.name, 

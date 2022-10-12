@@ -1,11 +1,11 @@
 const express = require('express')
 const routes = express.Router()
 const { signUp,signIn } = require('../Controller/auth')
-// const {checkDuplicateUsernameAndEmail} = require('../middleware')
+const {checkDuplicateUsernameAndEmail,checkRoles} = require('../middleware/user')
 
- routes.post('/api/books/v1/signup',
+ routes.post('/api/books/v1/signup',[checkDuplicateUsernameAndEmail],[checkRoles],
 signUp)
-// [checkDuplicateUsernameAndEmail, checkRoles]
+
 
 routes.post('/api/books/v1/signIn',signIn)
 

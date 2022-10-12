@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const jwt = require('jsonwebtoken')
 const {Books,sequelize} = require('./models')
 const {Role} = require('./models')
 const {booksRoutes,authRoutes} = require('./Routes')
@@ -8,7 +9,7 @@ const {booksRoutes,authRoutes} = require('./Routes')
 
 
 app.use(express.json());
-// app.use(express.urlencoded({ extended:true }));
+
 
 app.use(booksRoutes)
 app.use(authRoutes)
@@ -19,11 +20,21 @@ app.get('/',(req,res) => {
 app.listen(3000, async()=>{
     console.log('server is running on http://localhost:3000')
     await init()
+    // const payload = {id:'hello iam id',exp:Math.floor(Date.now() / 1000) + (60 * 60)}
+    // const secret = 'heloondfskjfndsnfkdsnvkfnfkjfndfndsknf';
+
+    // var token = jwt.sign(payload, secret);
+    // console.log('token',token);
+
+    // const data = jwt.verify(token,secret)
+    // console.log('data',data)
+
 })
 
 async function init(){
     try {
         await sequelize.sync({force: true})
+        // here we have Provided the default data as an Books
         const defaultBooks = [
             { 
             name:"life of pie",

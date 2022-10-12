@@ -12,11 +12,7 @@ async function createBooks(req,res){
 
         const result = await Books.create({name,image_url,Author,pages,Price
             
-            // name:"life of pie",
-            // image: "this is image url",
-            // Author:"Hollywood",
-            // pages:25,
-            // price: 500
+            
         })
         console.log('books created', result)
     
@@ -116,14 +112,6 @@ async function DeleteBooks(req,res){
         res.status(500).send({msg: 'Internal server error'}) 
     }
 } 
-
-
-        
-		
-		 
-	
-   
-
 
 module.exports = {
 createBooks,
